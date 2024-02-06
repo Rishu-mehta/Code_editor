@@ -1,6 +1,7 @@
 const express = require('express');
 const { generateFile } = require('./generatefile.js');
 const app =express();
+const {executeCpp} = require('./executeCpp.js');
 app.use(express.urlencoded({extended:true}));
 app.use(express.json()); 
 
@@ -15,8 +16,14 @@ app.post('/run',async (req,res)=>{
     if(code==undefined){
         return res.status(400).json({success:false , error:"Empty code body "})
     }
+    try{
     const filepath = await generateFile(language ,code )
-    return res.json({ filepath}); 
+    const output = await executeCpp(filepath)
+    return res.json({ filepath , output});
+    }
+    catch (err){
+        res.status(500).json({err});
+    } 
 })
 
 app.listen(5000,()=>{
