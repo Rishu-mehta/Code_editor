@@ -1,0 +1,14 @@
+.Editor{
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+
+}
+.input-field textarea{
+    width: 90%;
+    height: 60vh;
+    border-radius: 10px;
+    
+    box-shadow: 10px grey;
+}
+
