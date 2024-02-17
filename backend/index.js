@@ -1,7 +1,12 @@
 const express = require('express');
 const { generateFile } = require('./generatefile.js');
-const app =express();
 const {executeCpp} = require('./executeCpp.js');
+const cors = require ('cors');
+
+
+
+const app =express();
+app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json()); 
 

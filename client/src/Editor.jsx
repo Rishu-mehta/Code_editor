@@ -60,9 +60,10 @@
 
 import React, { useState } from 'react';
 import "./Editor.css"
+import  axios from 'axios';
 function Editor() {
     const [code, setCode] = useState('');
-    const [language, setLanguage] = useState('javascript');
+    const [language, setLanguage] = useState('cpp');
     const [output, setOutput] = useState('');
   
     const handleCodeChange = (event) => {
@@ -74,11 +75,17 @@ function Editor() {
     };
   
     const handleCompile = async () => {
-      try {
+     
         // In a real-world scenario, you would send the code and language to a server
         // for compilation and receive the output.
         // For simplicity, I'll just set the output to the code here.
-        setOutput(code);
+        const payload = {
+          language ,
+          code
+        };
+      try {
+      const {data} = await axios.post("http://localhost:5000/run",payload)
+        setOutput(data.output);
       } catch (error) {
         console.error('Compilation error:', error);
         setOutput('Compilation error. Please check your code and try again.');
@@ -96,6 +103,7 @@ function Editor() {
               <option value="javascript">JavaScript</option>
               <option value="python">Python</option>
               <option value="Java">Java</option>
+              <option value="cpp">cpp</option>
             </select>
           </label>
         </div>

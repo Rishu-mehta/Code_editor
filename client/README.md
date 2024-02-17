@@ -71,3 +71,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### pacakages to install
 npm install react-router-dom
+## install axios for api call
+npm i axios
