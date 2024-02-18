@@ -27,9 +27,14 @@ function Editor() {
       try {
       const {data} = await axios.post("http://localhost:5000/run",payload)
         setOutput(data.output);
-      } catch (error) {
-        console.error('Compilation error:', error);
-        setOutput('Compilation error. Please check your code and try again.');
+      } catch ({response}) {
+       if(response){
+        const errmsg= response.data.err.stderr;
+        setOutput(errmsg);
+       }
+       else{
+       setOutput("Error connectinf to server")
+       }
       }
     };
   
