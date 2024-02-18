@@ -17,15 +17,12 @@ function Editor() {
   
     const handleCompile = async () => {
      
-        // In a real-world scenario, you would send the code and language to a server
-        // for compilation and receive the output.
-        // For simplicity, I'll just set the output to the code here.
         const payload = {
           language ,
           code
         };
       try {
-      const {data} = await axios.post("http://localhost:5000/run",payload)
+      const {data} = await axios.post("http://192.168.1.20:5000/run",payload)
         setOutput(data.output);
       } catch ({response}) {
        if(response){
@@ -33,7 +30,7 @@ function Editor() {
         setOutput(errmsg);
        }
        else{
-       setOutput("Error connectinf to server")
+       setOutput("Failed to connect to server")
        }
       }
     };
