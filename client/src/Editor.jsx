@@ -4,25 +4,25 @@ import "./Editor.css"
 import  axios from 'axios';
 function Editor() {
     const [code, setCode] = useState('');
-    const [language, setLanguage] = useState('cpp');
     const [output, setOutput] = useState('');
+    const [filename ,setFilename]= useState('');
   
     const handleCodeChange = (event) => {
       setCode(event.target.value);
     };
   
-    const handleLanguageChange = (event) => {
-      setLanguage(event.target.value);
-    };
+    const handlefilename =(e)=>{
+      setFilename(e.target.value);
+    }
   
     const handleCompile = async () => {
      
         const payload = {
-          language ,
-          code
+          code,
+          filename
         };
       try {
-      const {data} = await axios.post("http://192.168.1.20:5000/run",payload)
+      const {data} = await axios.post("http://localhost:5000/run",payload)
         setOutput(data.output);
       } catch ({response}) {
        if(response){
@@ -39,15 +39,9 @@ function Editor() {
       <div className="Editor">
        <div className="title-name"> <h1>Code Compiler</h1>
        </div>
-        <div>
-          <label>
-            Select Language:
-            <select value={language} onChange={handleLanguageChange}>
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="Java">Java</option>
-              <option value="cpp">cpp</option>
-            </select>
+        <div className="file-name">
+          <label htmlFor="Filename">Filename
+          <input type="text" name="" id="" onChange={handlefilename} required/>
           </label>
         </div>
         <div className='input-field'>

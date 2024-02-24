@@ -4,6 +4,7 @@ const {executeCpp} = require('./executeCpp.js');
 const cors = require ('cors');
 const {executePy} = require('./executePy.js');
 const { executeJs} = require ('./executeJs.js')
+const {executeJava} =require ('./executeJava.js')
 
 const app =express();
 app.use(cors());
@@ -15,23 +16,28 @@ app.get('/',(req,res)=>{
 })
 app.post('/run',async (req,res)=>{
 
-    const { language , code } = req.body;
-    console.log(language);
+    const {  code, filename } = req.body;
+    console.log(filename);
     if(code==undefined){
         return res.status(400).json({success:false , error:"Empty code body "})
     }
     try{
-    const filepath = await generateFile(language ,code );
+    const filepath = await generateFile(code ,filename);
     let output;
-    if (language==="cpp"){
+    const parts = filename.split(".");
+    const extension = parts[1];
+    if (extension==="cpp"){
     output = await executeCpp(filepath);
     }
-    else if(language==="python"){
+    else if(extension==="py"){
     output = await executePy(filepath);
 
     }
-    else if (language==="javascript"){
+    else if (extension==="js"){
     output = await executeJs(filepath);
+    }
+    else if(extension==="java"){
+    output = await executeJava(filepath);
     }
     return res.json({ filepath , output});
     }
